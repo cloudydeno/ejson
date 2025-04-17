@@ -100,7 +100,7 @@ const str = (key, holder, singleIndent, outerIndent, canonical) => {
 };
 
 // If the JSON object does not yet have a stringify method, give it one.
-const canonicalStringify = (value, options) => {
+export const canonicalStringify = (value, options) => {
   // Make a fake root object containing our value under the key of ''.
   // Return the result of stringifying the value.
   const allOptions = Object.assign({
@@ -118,5 +118,3 @@ const canonicalStringify = (value, options) => {
   }
   return str('', {'': value}, allOptions.indent, '', allOptions.canonical);
 };
-
-export default canonicalStringify;

@@ -1,4 +1,11 @@
 # ejson
+
+A republish of Meteor's `ejson` package.
+
+Original README follows.
+
+---
+
 [Source code of released version](https://github.com/meteor/meteor/tree/master/packages/ejson) | [Source code of development version](https://github.com/meteor/meteor/tree/devel/packages/ejson)
 ***
 

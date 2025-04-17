@@ -1,3 +1,5 @@
+/// <reference types="./ejson.d.ts" />
+
 import {
   isFunction,
   isObject,
@@ -8,7 +10,10 @@ import {
   isArguments,
   isInfOrNaN,
   handleError,
-} from './utils';
+} from './utils.js';
+import {
+  canonicalStringify,
+} from './stringify.js';
 
 /**
  * @namespace
@@ -395,7 +400,6 @@ EJSON.stringify = handleError((item, options) => {
   let serialized;
   const json = EJSON.toJSONValue(item);
   if (options && (options.canonical || options.indent)) {
-    import canonicalStringify from './stringify';
     serialized = canonicalStringify(json, options);
   } else {
     serialized = JSON.stringify(json);
