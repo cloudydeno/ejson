@@ -28,8 +28,8 @@ jobs:
       with:
         deno-version: ${{ matrix.deno-version }}
 
-    # - name: Test
-    #   run: time deno test --allow-net ./test/*.ts
+    - name: Test
+      run: time deno test
 
     - name: Check publish rules
       run: time deno publish --dry-run

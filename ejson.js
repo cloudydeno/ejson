@@ -14,6 +14,10 @@ import {
 import {
   canonicalStringify,
 } from './stringify.js';
+import {
+  decodeBase64,
+  encodeBase64,
+} from 'jsr:@std/encoding@1.0.9/base64';
 
 /**
  * @namespace
@@ -171,10 +175,10 @@ const builtinConverters = [
         || (obj && hasOwn(obj, '$Uint8ArrayPolyfill'));
     },
     toJSONValue(obj) {
-      return {$binary: Base64.encode(obj)};
+      return {$binary: encodeBase64(obj)};
     },
     fromJSONValue(obj) {
-      return Base64.decode(obj.$binary);
+      return decodeBase64(obj.$binary);
     },
   },
   { // Escaping one level
@@ -216,7 +220,7 @@ const builtinConverters = [
       return EJSON._isCustomType(obj);
     },
     toJSONValue(obj) {
-      const jsonValue = Meteor._noYieldsAllowed(() => obj.toJSONValue());
+      const jsonValue = obj.toJSONValue();
       return {$type: obj.typeName(), $value: jsonValue};
     },
     fromJSONValue(obj) {
@@ -225,7 +229,7 @@ const builtinConverters = [
         throw new Error(`Custom EJSON type ${typeName} is not defined`);
       }
       const converter = customTypes.get(typeName);
-      return Meteor._noYieldsAllowed(() => converter(obj.$value));
+      return converter(obj.$value);
     },
   },
 ];
@@ -617,11 +621,6 @@ EJSON.clone = v => {
  * @locus Anywhere
  * @param {Number} size The number of bytes of binary data to allocate.
  */
-// EJSON.newBinary is the public documented API for this functionality,
-// but the implementation is in the 'base64' package to avoid
-// introducing a circular dependency. (If the implementation were here,
-// then 'base64' would have to use EJSON.newBinary, and 'ejson' would
-// also have to use 'base64'.)
-EJSON.newBinary = Base64.newBinary;
+EJSON.newBinary = (size) => new Uint8Array(new ArrayBuffer(size));
 
 export { EJSON };

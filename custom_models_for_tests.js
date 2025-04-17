@@ -1,4 +1,4 @@
-import { EJSON } from './ejson';
+import { EJSON } from './ejson.js';
 
 class Address {
   constructor(city, state) {
